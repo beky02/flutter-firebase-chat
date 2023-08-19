@@ -11,7 +11,7 @@ class Conversation extends StatefulWidget {
   Conversation(
       {required this.onTap,
       required this.name,
-      required this.imgUrl,
+      this.imgUrl,
       required this.message,
       required this.time,
       required this.isMessageRead});
@@ -31,12 +31,10 @@ class _ConversationState extends State<Conversation> {
             horizontal: size.width * 0.03, vertical: size.width * 0.02),
         child: Row(children: [
           widget.imgUrl == null
-              ? CircleAvatar(
-                  maxRadius: size.height * 0.04,
-                )
+              ? DefualtAvatar(firstName: widget.name, lastName: "Tadege")
               : CircleAvatar(
                   backgroundImage: NetworkImage(widget.imgUrl!),
-                  maxRadius: size.height * 0.04,
+                  maxRadius: size.height * 0.02,
                 ),
           SizedBox(
             width: 16,
