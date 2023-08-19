@@ -2,13 +2,12 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_chat/models/message_model.dart';
-import 'package:firebase_chat/models/user_model.dart';
+import 'package:firebase_chat/models/index.dart';
 import 'package:flutter/services.dart';
 
 class FirestoreService {
   FirestoreService() {
-    listenToMessageRealTime(FirebaseAuth.instance.currentUser.uid);
+    listenToMessageRealTime(FirebaseAuth.instance.currentUser?.uid ?? "");
   }
   final CollectionReference _usersCollectionReference =
       FirebaseFirestore.instance.collection('users');
@@ -35,9 +34,7 @@ class FirestoreService {
     try {
       if (message.connectionId == null) {
         await _chatCollectionReference
-            .doc(
-              message.senderId + message.receiverId
-            )
+            .doc(message.senderId + message.receiverId)
             .collection("messages")
             .doc()
             .set(message.toJson());
@@ -59,17 +56,24 @@ class FirestoreService {
 
   listenToMessageRealTime(String currentUserId) {
     print("called");
-    _chatContoller.sink.add([MessageModel(receiverId: "2", text: "kal")]);
+    _chatContoller.sink.add([
+      MessageModel(
+          id: '12345',
+          receiverId: "2",
+          text: "kal",
+          connectionId: '12',
+          senderId: '1',
+          seen: false)
+    ]);
     _chatCollectionReference.snapshots().listen((event) {
-     // print(currentUserId);
-     // print(event.docs[1].data());
+      // print(currentUserId);
+      // print(event.docs[1].data());
       if (event.docs.isNotEmpty) {
         var messages = event.docs
             .map((e) {
               print("check message");
               print(e.data());
-              return
-              MessageModel.fromJson(e.data());
+              return MessageModel.fromJson(e.data() as Map<String, dynamic>);
             })
             .where((element) => element.receiverId == currentUserId)
             .toList();
@@ -85,7 +89,7 @@ class FirestoreService {
       print(usersDocumentSnapshot.docs);
       if (usersDocumentSnapshot.docs.isNotEmpty) {
         return usersDocumentSnapshot.docs
-            .map((e) => UserModel.fromJson(e.data()))
+            .map((e) => UserModel.fromJson(e.data() as Map<String, dynamic>))
             .toList();
       }
     } catch (e) {
@@ -96,7 +100,8 @@ class FirestoreService {
       return e.toString();
     }
   }
-  void printName(){
+
+  void printName() {
     print("hello");
   }
 }

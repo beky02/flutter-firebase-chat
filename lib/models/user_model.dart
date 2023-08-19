@@ -1,19 +1,20 @@
-class UserModel {
-  String id;
-  String firstName;
-  String lastName;
-  String phoneNumber;
-  String userName;
-  DateTime createdAt;
+part of models;
 
-  static UserModel userModel;
+class UserModel {
+  final String id;
+  final String firstName;
+  final String lastName;
+  final String phoneNumber;
+  final String userName;
+  final DateTime createdAt;
+
   UserModel({
-    this.id,
-    this.firstName,
-    this.lastName,
-    this.phoneNumber,
-    this.userName,
-    this.createdAt,
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.phoneNumber,
+    required this.userName,
+    required this.createdAt,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -22,9 +23,16 @@ class UserModel {
         lastName: json['last_name'],
         phoneNumber: json['phone_no'],
         userName: json['user_name'],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
+        createdAt: DateTime.parse(json["created_at"]),
+      );
+
+  factory UserModel.fromDynamic(Map<dynamic, dynamic> json) => UserModel(
+        id: json['id'],
+        firstName: json['first_name'],
+        lastName: json['last_name'],
+        phoneNumber: json['phone_no'],
+        userName: json['user_name'],
+        createdAt: DateTime.parse(json["created_at"]),
       );
 
   Map<String, dynamic> toJson() => {

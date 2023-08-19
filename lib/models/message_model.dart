@@ -1,18 +1,20 @@
+part of models;
+
 class MessageModel {
   String id;
   String senderId;
   String receiverId;
-  String connectionId;
+  String? connectionId;
   String text;
   bool seen;
 
   MessageModel(
-      {this.id,
-      this.senderId,
-      this.receiverId,
-      this.connectionId,
-      this.text,
-      this.seen});
+      {required this.id,
+      required this.senderId,
+      required this.receiverId,
+      required this.connectionId,
+      required this.text,
+      required this.seen});
 
   factory MessageModel.fromJson(Map<String, dynamic> json) => MessageModel(
       id: json['id'],
@@ -30,11 +32,11 @@ class MessageModel {
       seen: json['seen']);
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "senderId": senderId == null ? null : senderId,
-        "receiverId": receiverId == null ? null : receiverId,
-        "connectionId": connectionId == null ? null : connectionId,
-        "text": text == null ? null : text,
-        "seen": seen == null ? null : seen,
+        "id": id,
+        "senderId": senderId,
+        "receiverId": receiverId,
+        "connectionId": connectionId,
+        "text": text,
+        "seen": seen,
       };
 }

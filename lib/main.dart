@@ -1,5 +1,5 @@
-import 'package:firebase_chat/bloc/firebase_auth_bloc/firebase_auth_bloc.dart';
-import 'package:firebase_chat/screens/auth/check_auth.dart';
+import 'package:firebase_chat/cubit/firebase_auth_cubit/index.dart';
+import 'package:firebase_chat/screens/splash_screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: BlocProvider<FirebaseAuthBloc>(
-        child: CheckAuth(),
+        child: SplashScreen(),
         create: (context) => FirebaseAuthBloc(),
       ),
     );
